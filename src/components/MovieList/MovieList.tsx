@@ -67,10 +67,13 @@ const MovieList = () => {
 export default MovieList;
 
 const MainContainer = styled.div`
+    height: 720px;
+
     gap: 1rem;
     display: flex;
+    justify-content: center;
 
     flex-wrap: wrap;
-    overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
 `;

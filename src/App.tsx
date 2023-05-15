@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "./components/Header";
 import MovieList from "./components/MovieList";
 import { ContextModel, SortBy } from "./types";
+import { styled } from "styled-components";
 
 export const AppContext = createContext<ContextModel | undefined>(undefined);
 
@@ -14,16 +15,27 @@ function App() {
     );
 
     return (
-        <div className='App'>
-            <button>Go back</button>
+        <AppContext.Provider value={memoizedContextValue}>
+            <PageLayout>
+                <button>Go back</button>
 
-            <AppContext.Provider value={memoizedContextValue}>
                 <Header />
 
                 <MovieList />
-            </AppContext.Provider>
-        </div>
+            </PageLayout>
+        </AppContext.Provider>
     );
 }
 
 export default App;
+
+const PageLayout = styled.div`
+    direction: rtl;
+
+    width: 480px;
+
+    background-color: #f5f5f5;
+
+    border-radius: 4px;
+    box-shadow: 0 0 1px black;
+`;
