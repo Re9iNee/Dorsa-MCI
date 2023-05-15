@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export enum SortBy {
     VIEW = "view",
     RATE = "rate",
@@ -33,3 +35,8 @@ export type MovieModel = Pick<
     MoviePure,
     "id" | "reviewsRate" | "reviewsTitle" | "reviewsThumbnailUrl"
 >;
+
+export interface ContextModel {
+    sortBy: SortBy;
+    setSortBy: Dispatch<SetStateAction<SortBy>>;
+}

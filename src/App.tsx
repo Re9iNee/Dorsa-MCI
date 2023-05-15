@@ -1,16 +1,27 @@
-import React from "react";
+import { createContext, useMemo, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import MovieList from "./components/MovieList";
+import { ContextModel, SortBy } from "./types";
+
+export const AppContext = createContext<ContextModel | undefined>(undefined);
 
 function App() {
+    const [sortBy, setSortBy] = useState<SortBy>(SortBy.NEWEST);
+    const memoizedContextValue = useMemo(
+        () => ({ sortBy, setSortBy }),
+        [sortBy, setSortBy]
+    );
+
     return (
         <div className='App'>
-            <a href='#'>Go back</a>
+            <button>Go back</button>
 
-            <Header />
+            <AppContext.Provider value={memoizedContextValue}>
+                <Header />
 
-            <MovieList />
+                <MovieList />
+            </AppContext.Provider>
         </div>
     );
 }

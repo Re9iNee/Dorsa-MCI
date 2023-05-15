@@ -1,20 +1,26 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { styled } from "styled-components";
+import { AppContext } from "../../App";
 import getAllMovies from "../../services/movies/getAll.service";
 import { MoviePure, ServerResponsePure } from "../../types";
-import MovieCard from "../MovieCard/MovieCard";
 import Loader from "../Loader";
+import MovieCard from "../MovieCard/MovieCard";
 
 const MovieList = () => {
-    const { data, fetchNextPage, isLoading, isFetchingNextPage } =
+    const context = useContext(AppContext);
+    if (!context) throw new Error("Couldn't fetch app context");
+
+    const { sortBy } = context;
+
+    const { data, fetchNextPage, isLoading, isRefetching, isFetchingNextPage } =
         useInfiniteQuery<ServerResponsePure<MoviePure>>({
             cacheTime: Infinity,
             staleTime: Infinity,
-            queryKey: ["movies"],
             queryFn: getAllMovies,
             keepPreviousData: true,
+            queryKey: ["movies", sortBy],
 
             getNextPageParam: (lastPage) => {
                 if (lastPage.max_num_pages === lastPage.paged) {
@@ -37,19 +43,21 @@ const MovieList = () => {
 
     return (
         <MainContainer>
-            {isLoading && <Loader />}
-
-            {data?.pages?.map((page) => {
-                return page.data.map((movie) => (
-                    <MovieCard
-                        ref={ref}
-                        key={movie.id}
-                        rating={movie.reviewsRate}
-                        title={movie.reviewsTitle}
-                        coverImage={movie.reviewsThumbnailUrl}
-                    />
-                ));
-            })}
+            {isLoading || isRefetching ? (
+                <Loader />
+            ) : (
+                data?.pages?.map((page) => {
+                    return page.data.map((movie) => (
+                        <MovieCard
+                            ref={ref}
+                            key={movie.id}
+                            rating={movie.reviewsRate}
+                            title={movie.reviewsTitle}
+                            coverImage={movie.reviewsThumbnailUrl}
+                        />
+                    ));
+                })
+            )}
 
             {isFetchingNextPage && <Loader />}
         </MainContainer>
