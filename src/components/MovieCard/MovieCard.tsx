@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactElement, RefObject, forwardRef } from "react";
 import { styled } from "styled-components";
 
 type Props = {
@@ -6,9 +6,18 @@ type Props = {
     rating: number;
     coverImage: string;
 };
-const MovieCard = ({ title, rating, coverImage }: Props) => {
+type RefType =
+    | ((instance: HTMLDivElement | null) => void)
+    | RefObject<HTMLDivElement>
+    | null
+    | undefined;
+
+const MovieCard = (
+    { title, rating, coverImage }: Props,
+    ref: RefType
+): ReactElement => {
     return (
-        <MainContainer>
+        <MainContainer ref={ref}>
             <img src={coverImage} alt={title} />
             <h4>{title}</h4>
             rating: <span>{rating}</span> out of 5
@@ -16,7 +25,7 @@ const MovieCard = ({ title, rating, coverImage }: Props) => {
     );
 };
 
-export default MovieCard;
+export default forwardRef(MovieCard);
 
 const MainContainer = styled.div`
     max-width: 220px;

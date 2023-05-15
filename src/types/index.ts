@@ -4,17 +4,17 @@ export enum SortBy {
     NEWEST = "newest",
 }
 
-export interface ApiResponsePure {
+export interface ServerResponsePure<T> {
     name: string;
     paged: number;
     status: boolean;
-    data: MoviePure[];
+    data: T[];
     pageTitle: string;
     max_num_pages: number;
     pageDescription: string;
 }
 
-interface MoviePure {
+export interface MoviePure {
     id: number;
     slug: string;
     postType: string;
