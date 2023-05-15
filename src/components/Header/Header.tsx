@@ -5,17 +5,18 @@ import { SortBy } from "../../types";
 
 const Header = () => {
     const context = useContext(AppContext);
-    if (!context) return <h1>Something Went Wrong Contact Admin</h1>;
+    if (!context) throw new Error("Something went wrong, Contact Admin!");
     const { sortBy, setSortBy } = context;
 
     return (
         <MainContainer>
             <header>
-                <h3>چیارو ببینه</h3>
-                <h5>مناسب برای ۳ تا ۷ سال</h5>
+                <h3>چیارو ببینه؟</h3>
+                <h5 className='secondary-color'>مناسب برای ۳ تا ۷ سال</h5>
             </header>
 
-            <div>مرتب سازی</div>
+            <div className='secondary-color'>مرتب سازی</div>
+
             <button
                 onClick={() => setSortBy(SortBy.NEWEST)}
                 color={sortBy === SortBy.NEWEST ? "blue" : ""}

@@ -1,9 +1,11 @@
-import { createContext, useMemo, useState } from "react";
 import "./App.css";
+import { createContext, useMemo, useState } from "react";
 import Header from "./components/Header";
 import MovieList from "./components/MovieList";
 import { ContextModel, SortBy } from "./types";
 import { styled } from "styled-components";
+
+import Navigation from "./components/Navigation";
 
 export const AppContext = createContext<ContextModel | undefined>(undefined);
 
@@ -17,7 +19,7 @@ function App() {
     return (
         <AppContext.Provider value={memoizedContextValue}>
             <PageLayout>
-                <button>Go back</button>
+                <Navigation />
 
                 <Header />
 
@@ -33,7 +35,6 @@ const PageLayout = styled.div`
     direction: rtl;
 
     width: 480px;
-
     background-color: #f5f5f5;
 
     border-radius: 4px;
